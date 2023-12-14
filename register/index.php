@@ -10,11 +10,14 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['emai
     // Hash the password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+    // Hash the email to create a token
+    $hashedEmail = hash('sha256', $email);
+
     // Prepare an SQL statement to insert data into the database
-    $stmt = $conn->prepare("INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO users (username, password, email, token) VALUES (?, ?, ?, ?)");
 
     // Bind parameters to prevent SQL injection
-    $stmt->bind_param("sss", $username, $hashedPassword, $email);
+    $stmt->bind_param("ssss", $username, $hashedPassword, $email, $hashedEmail);
 
     // Execute the statement
     if ($stmt->execute()) {
