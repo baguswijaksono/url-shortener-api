@@ -18,7 +18,10 @@ if (isset($_GET['short_url'])) {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $original_url = $row['orurl'];
-        // Redirect to the original URL
+
+        $urlId = getUrlIdByShortUrl($short_url);
+        $visitTracked = trackVisit($urlId);
+
         header("Location: $original_url");
         exit();
     } else {

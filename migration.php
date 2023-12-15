@@ -41,5 +41,19 @@ if ($conn->query($sql_urls) === TRUE) {
     echo "Error creating URLs table: " . $conn->error . "<br>";
 }
 
+$analyticsql = "CREATE TABLE analytics (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    url_id INT(6) UNSIGNED,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (url_id) REFERENCES urls(id) ON DELETE CASCADE
+);
+";
+
+if ($conn->query($analyticsql) === TRUE) {
+    echo "analytics table created successfully<br>";
+} else {
+    echo "Error creating URLs table: " . $conn->error . "<br>";
+}
+
 $conn->close();
 ?>
